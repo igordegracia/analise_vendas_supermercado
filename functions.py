@@ -23,3 +23,6 @@ def carregar_dados(caminho):
     df['Faixa_Etaria'] = classificar_faixa_etaria(df['Idade'])
     df['Tem_Desconto'] = df['Desconto'] > 0
     return df
+
+def classificar_faixa_etaria(idades):
+    return pd.cut(idades, bins=[0, 35, 59, np.inf], labels=FAIXAS_ETARIAS, ordered=True)
