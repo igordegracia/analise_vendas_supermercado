@@ -146,3 +146,14 @@ def _salvar(fig, nome_arquivo):
     plt.close(fig)
     print(f'Gráfico salvo em: {caminho}')
     return caminho
+
+def grafico_boxplots(df, colunas=COLUNAS_NUMERICAS, nome_arquivo='boxplots.png'):
+    fig, eixos = plt.subplots(2, (len(colunas) + 1) // 2, figsize=(14, 8))
+    for ax, c in zip(eixos.flat, colunas):
+        sns.boxplot(y=df[c], ax=ax, color='#4c72b0')
+        ax.set_title(c)
+        ax.set_ylabel('')
+    for ax in list(eixos.flat)[len(colunas):]:
+        ax.set_visible(False)
+    fig.suptitle('Boxplots das variáveis numéricas')
+    return _salvar(fig, nome_arquivo)
