@@ -175,3 +175,11 @@ def grafico_heatmap(corr, titulo_grafico='Matriz de correlação', nome_arquivo=
     sns.heatmap(corr, annot=True, fmt='.2f', cmap='coolwarm', vmin=-1, vmax=1, square=True, ax=ax)
     ax.set_title(titulo_grafico)
     return _salvar(fig, nome_arquivo)
+
+def grafico_barras(serie, titulo_grafico, nome_arquivo, xlabel='', ylabel='', horizontal=False):
+    fig, ax = plt.subplots(figsize=(10, 5))
+    serie.plot(kind='barh' if horizontal else 'bar', ax=ax, color='#4c72b0')
+    ax.set_title(titulo_grafico)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    return _salvar(fig, nome_arquivo)
