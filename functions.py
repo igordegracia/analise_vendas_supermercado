@@ -169,3 +169,9 @@ def grafico_histograma(serie, nome_arquivo=None, bins=30):
     ax.set_title(f'Distribuição de {serie.name}')
     ax.legend()
     return _salvar(fig, nome_arquivo or f'histograma_{serie.name}.png')
+
+def grafico_heatmap(corr, titulo_grafico='Matriz de correlação', nome_arquivo='heatmap_correlacao.png'):
+    fig, ax = plt.subplots(figsize=(8, 6))
+    sns.heatmap(corr, annot=True, fmt='.2f', cmap='coolwarm', vmin=-1, vmax=1, square=True, ax=ax)
+    ax.set_title(titulo_grafico)
+    return _salvar(fig, nome_arquivo)
