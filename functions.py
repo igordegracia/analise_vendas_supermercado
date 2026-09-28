@@ -80,3 +80,7 @@ def outliers_iqr(serie, k=1.5):
     lim_inf, lim_sup = q1 - k * iqr, q3 + k * iqr
     return (serie < lim_inf) | (serie > lim_sup), lim_inf, lim_sup
 
+def outliers_zscore(serie, limite=3):
+    z = (serie - serie.mean()) / serie.std()
+    return z.abs() > limite
+
