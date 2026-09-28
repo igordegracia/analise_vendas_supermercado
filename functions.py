@@ -111,3 +111,6 @@ def tabela_frequencia(serie, ordenar_por_frequencia=False):
     tabela['Freq. Acumulada (%)'] = tabela['Freq. Relativa (%)'].cumsum()
     tabela.loc['Total'] = [contagem.sum(), 100.0, np.nan]
     return tabela
+
+def matriz_correlacao(df, colunas=COLUNAS_NUMERICAS, metodo='pearson'):
+    return df[colunas].corr(method=metodo)
