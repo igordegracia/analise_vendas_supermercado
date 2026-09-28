@@ -52,3 +52,11 @@ def medidas_descritivas(serie):
 
 def tabela_descritiva(df, colunas=COLUNAS_NUMERICAS):
     return pd.concat([medidas_descritivas(df[coluna]) for coluna in colunas], axis=1)
+
+def interpretar_cv(cv):
+    if cv < 15:
+        return 'baixa disperção'
+    elif cv < 30:
+        return 'disperção moderada'
+    else:
+        return 'alta disperção'
