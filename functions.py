@@ -252,3 +252,29 @@ def teste_ab(grupo_a, grupo_b, nome_a='A', nome_b='B', alternativa='two-sided', 
         'alpha': alpha,
         'rejeita_h0': p < alpha,
     }
+
+def imprimir_teste_ab(resultado, h0, h1):
+    """Imprime o teste A/B no formato pedido: H0, H1, α, estatística, p-valor e conclusão."""
+    r = resultado
+    print(f'H0: {h0}')
+    print(f'H1: {h1}')
+    print(f'Nível de significância: α = {r["alpha"]}')
+    print(f'Grupo A ({r["nome_a"]}): n = {r["n_a"]}, média = {r["media_a"]:.2f}')
+    print(f'Grupo B ({r["nome_b"]}): n = {r["n_b"]}, média = {r["media_b"]:.2f}')
+    print(f'Diferença (B - A) = {r["diferenca"]:.2f} ({r["diferenca_pct"]:+.1f}%)')
+    print(f'Teste t de Welch: t = {r["estatistica_t"]:.4f}, p-valor = {r["p_valor"]:.4g}')
+    print(f'Mann-Whitney (robustez): p-valor = {r["p_valor_mann_whitney"]:.4g}')
+    print(f'Tamanho do efeito (d de Cohen) = {r["d_cohen"]:.3f}')
+    relacao = {'two-sided': 'diferente de', 'greater': 'maior que', 'less': 'menor que'}[r['alternativa']]
+    if r['rejeita_h0']:
+        print(f'Conclusão: p-valor < {r["alpha"]} → rejeitamos H0. Há evidência estatística de que a média de '
+              f'"{r["nome_b"]}" é {relacao} a de "{r["nome_a"]}"; a diferença dificilmente é explicada '
+              f'apenas por variação aleatória.')
+    else:
+        print(f'Conclusão: p-valor ≥ {r["alpha"]} → não rejeitamos H0. Não há evidência estatística de que a '
+              f'média de "{r["nome_b"]}" seja {relacao} a de "{r["nome_a"]}"; a diferença observada pode ser '
+              f'explicada por variação aleatória.')
+
+def imprimir_ic(nome, ic, unidade='R$'):
+    print(f'{nome}: média = {unidade} {ic["media"]:.2f} | IC 95% = [{unidade} {ic["lim_inferior"]:.2f}; '
+              f'{unidade} {ic["lim_superior"]:.2f}] | amplitude = {unidade} {ic["amplitude"]:.2f} (n = {ic["n"]})')
