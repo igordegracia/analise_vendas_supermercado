@@ -60,3 +60,9 @@ def interpretar_cv(cv):
         return 'disperção moderada'
     else:
         return 'alta disperção'
+
+def interpretar_assimetria(s):
+    if abs(s) < 0.5:
+        return f'assimetria de {s:.2f}: distribuição aproximadamente simétrica'
+    if s > 0:
+        return (f'assimetria de {s:.2f}: assimetria positiva, poucos valores altos ', f'puxam a média para baixo da mediana.')
