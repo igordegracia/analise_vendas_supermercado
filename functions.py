@@ -183,3 +183,12 @@ def grafico_barras(serie, titulo_grafico, nome_arquivo, xlabel='', ylabel='', ho
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     return _salvar(fig, nome_arquivo)
+
+def grafico_linha(serie, titulo_grafico, nome_arquivo, xlabel='', ylabel=''):
+    fig, ax = plt.subplots(figsize=(11, 5))
+    serie.plot(ax=ax, marker='o')
+    ax.set_title(titulo_grafico)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.grid(alpha=0.3)
+    return _salvar(fig, nome_arquivo)
