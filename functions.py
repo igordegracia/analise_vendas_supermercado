@@ -66,3 +66,11 @@ def interpretar_assimetria(s):
         return f'assimetria de {s:.2f}: distribuição aproximadamente simétrica'
     if s > 0:
         return (f'assimetria de {s:.2f}: assimetria positiva, poucos valores altos ', f'puxam a média para baixo da mediana.')
+
+def interpretar_curtose(k):
+    if abs(k) < 0.5:
+        return f'curtose de {k:.2f} → distribuição aproximadamente normal'
+    if k > 0:
+        return f'curtose de {k:.2f} → distribuição leptocúrtica, com caudas mais pesadas que a normal'
+    return f'curtose de { k:.2f} -> distribuição platicúrtica, com caudas mais leves que a normal'
+
