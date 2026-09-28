@@ -49,3 +49,6 @@ def medidas_descritivas(serie):
         'assimetria': serie.skew(),
         'curtose': serie.kurt(),
     }, name=serie.name)
+
+def tabela_descritiva(df, colunas=COLUNAS_NUMERICAS):
+    return pd.concat([medidas_descritivas(df[coluna]) for coluna in colunas], axis=1)
