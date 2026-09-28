@@ -84,3 +84,18 @@ def outliers_zscore(serie, limite=3):
     z = (serie - serie.mean()) / serie.std()
     return z.abs() > limite
 
+def resumo_outliers(df, colunas=COLUNAS_NUMERICAS):
+    linhas = []
+    for c in colunas:
+        mask_iqr, lim_inf, lim_sup = outliers_iqr(df[c])
+        mask_z = outliers_zscore(df[c])
+        linhas.append({
+            'Variável': c,
+            'Lim. inferior (IQR)': lim_inf,
+            'Lim. superior (IQR)': lim_sup,
+            'Outliers IQR': int(mask_iqr.sum()),
+            '% IQR': mask_iqr.mean() * 100,
+            'Outliers z>3': int(mask_z.sum()),
+            '% z>3': mask_z.mean() * 100,
+        })
+    return pd.DataFrame(linhas).set_index('Variável')
