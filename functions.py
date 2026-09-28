@@ -99,3 +99,15 @@ def resumo_outliers(df, colunas=COLUNAS_NUMERICAS):
             '% z>3': mask_z.mean() * 100,
         })
     return pd.DataFrame(linhas).set_index('Variável')
+
+def tabela_frequencia(serie, ordenar_por_frequencia=False):
+    contagem = serie.value_counts(sort=ordenar_por_frequencia)
+    if not ordenar_por_frequencia and not isinstance(serie.dtype, pd.CategoricalDtype):
+        contagem = contagem.sort_index()
+    tabela = pd.DataFrame({
+        'Freq. Absoluta': contagem,
+        'Freq. Relativa (%)': contagem / contagem.sum() * 100,
+    })
+    tabela['Freq. Acumulada (%)'] = tabela['Freq. Relativa (%)'].cumsum()
+    tabela.loc['Total'] = [contagem.sum(), 100.0, np.nan]
+    return tabela
