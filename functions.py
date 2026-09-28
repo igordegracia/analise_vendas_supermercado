@@ -137,3 +137,12 @@ def correlacoes_relevantes(corr, limite=0.1):
             if abs(r) >= limite:
                 pares.append((colunas[i], colunas[j], r))
     return sorted(pares, key=lambda p: abs(p[2]), reverse=True)
+
+def _salvar(fig, nome_arquivo):
+    PASTA_GRAFICOS.mkdir(exist_ok=True)
+    caminho = PASTA_GRAFICOS / nome_arquivo
+    fig.tight_layout()
+    fig.savefig(caminho, dpi=300)
+    plt.close(fig)
+    print(f'Gráfico salvo em: {caminho}')
+    return caminho
