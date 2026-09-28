@@ -210,3 +210,20 @@ def coeficiente_variacao_mensal(df, grupo='Produto', valor='Total_Venda'):
     mensal = df.pivot_table(index=grupo, columns='Mes', values=valor, aggfunc='sum', fill_value=0)
     cv = mensal.std(axis=1) / mensal.mean(axis=1) * 100
     return cv.sort_values(ascending=False).rename('cv_mensal(%)')
+
+def intervalo_confianca(amostra, confianca=0.95):
+    amostra = pd.Series(amostra).dropna()
+    n = len(amostra)
+    media = amostra.mean()
+    erro_padrao = stats.sem(amostra)
+    li, ls = stats.t.interval(confianca, df=n - 1, loc=media, scale=erro_padrao)
+    return {
+        'n': n,
+        'media': media,
+        'desvio_padrao': amostra.std(),
+        'erro_padrao': erro_padrao,
+        'lim_inferior': li,
+        'lim_superior': ls,
+        'margem_erro': ls - media,
+        'amplitude': ls - li,
+    }
