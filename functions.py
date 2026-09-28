@@ -227,3 +227,28 @@ def intervalo_confianca(amostra, confianca=0.95):
         'margem_erro': ls - media,
         'amplitude': ls - li,
     }
+
+def ic_por_grupo(df, coluna, valor='Total_Venda', confianca=0.95):
+    linhas = {g: intervalo_confianca(sub[valor], confianca) for g, sub in df.groupby(coluna, observed=True)}
+    return pd.DataFrame(linhas).T
+
+def teste_ab(grupo_a, grupo_b, nome_a='A', nome_b='B', alternativa='two-sided', alpha=ALPHA):
+    a = pd.Series(grupo_a).dropna()
+    b = pd.Series(grupo_b).dropna()
+    t, p = stats.ttest_ind(b, a, equal_var=False, alternative=alternativa)
+    _, p_mw = stats.mannwhitneyu(b, a, alternative=alternativa)
+    desvio_combinado = np.sqrt(((len(a) - 1) * a.var() + (len(b) - 1) * b.var()) / (len(a) + len(b) - 2))
+    return {
+        'nome_a': nome_a, 'nome_b': nome_b,
+        'n_a': len(a), 'n_b': len(b),
+        'media_a': a.mean(), 'media_b': b.mean(),
+        'diferenca': b.mean() - a.mean(),
+        'diferenca_pct': (b.mean() - a.mean()) / a.mean() * 100 if a.mean() != 0 else np.nan,
+        'estatistica_t': t,
+        'p_valor': p,
+        'p_valor_mann_whitney': p_mw,
+        'd_cohen': (b.mean() - a.mean()) / desvio_combinado if desvio_combinado > 0 else np.nan,
+        'alternativa': alternativa,
+        'alpha': alpha,
+        'rejeita_h0': p < alpha,
+    }
