@@ -127,3 +127,13 @@ def interpretar_correlacao(r):
         intensidade = 'forte'
     sentido = 'positiva' if r > 0 else 'negativa'
     return f'correlação {intensidade} {sentido} (r = {r:.2f})'
+
+def correlacoes_relevantes(corr, limite=0.1):
+    pares = []
+    colunas = corr.columns
+    for i in range(len(colunas)):
+        for j in range(i + 1, len(colunas)):
+            r = corr.iloc[i, j]
+            if abs(r) >= limite:
+                pares.append((colunas[i], colunas[j], r))
+    return sorted(pares, key=lambda p: abs(p[2]), reverse=True)
