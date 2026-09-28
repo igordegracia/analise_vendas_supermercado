@@ -12,3 +12,4 @@ MESES = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', '
 FAIXAS_ETARIAS = ['Jovem', 'Adulto', 'Idoso']
 ALPHA = 0.05
 PASTA_GRAFICOS = Path(__file__).parent / 'graficos'
+PASTA_GRAFICOS.mkdir(parents=True, exist_ok=True)
