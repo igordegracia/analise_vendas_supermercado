@@ -114,3 +114,16 @@ def tabela_frequencia(serie, ordenar_por_frequencia=False):
 
 def matriz_correlacao(df, colunas=COLUNAS_NUMERICAS, metodo='pearson'):
     return df[colunas].corr(method=metodo)
+
+def interpretar_correlacao(r):
+    forca = abs(r)
+    if forca < 0.1:
+        intensidade = 'desprezível'
+    elif forca < 0.3:
+        intensidade = 'fraca'
+    elif forca < 0.7:
+        intensidade = 'moderada'
+    else:
+        intensidade = 'forte'
+    sentido = 'positiva' if r > 0 else 'negativa'
+    return f'correlação {intensidade} {sentido} (r = {r:.2f})'
