@@ -192,3 +192,21 @@ def grafico_linha(serie, titulo_grafico, nome_arquivo, xlabel='', ylabel=''):
     ax.set_ylabel(ylabel)
     ax.grid(alpha=0.3)
     return _salvar(fig, nome_arquivo)
+
+def vendas_por(df, coluna, valor='Total_Venda', agregacao='sum'):
+    return df.groupby(coluna, observed=True)[valor].agg(agregacao).sort_values(ascending=False)
+
+def vendas_diarias(df, valor='Total_Venda'):
+    return df.set_index('Data')[valor].resample('D').sum()
+
+def filtrar_pedidos(df, inicio, fim):
+    return df[(df['Data'] >= pd.Timestamp(inicio)) & (df['Data'] <= pd.Timestamp(fim))]
+
+def semana_em_torno(data_central, dias_antes=3, dias_depois=3):
+    centro = pd.Timestamp(data_central)
+    return centro - pd.Timedelta(days=dias_antes), centro + pd.Timedelta(days=dias_depois)
+
+def coeficiente_variacao_mensal(df, grupo='Produto', valor='Total_Venda'):
+    mensal = df.pivot_table(index=grupo, columns='Mes', values=valor, aggfunc='sum', fill_value=0)
+    cv = mensal.std(axis=1) / mensal.mean(axis=1) * 100
+    return cv.sort_values(ascending=False).rename('cv_mensal(%)')
