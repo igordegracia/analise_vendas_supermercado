@@ -74,3 +74,9 @@ def interpretar_curtose(k):
         return f'curtose de {k:.2f} → distribuição leptocúrtica, com caudas mais pesadas que a normal'
     return f'curtose de { k:.2f} -> distribuição platicúrtica, com caudas mais leves que a normal'
 
+def outliers_iqr(serie, k=1.5):
+    q1, q3 = serie.quantile([0.25, 0.75])
+    iqr = q3 - q1
+    lim_inf, lim_sup = q1 - k * iqr, q3 + k * iqr
+    return (serie < lim_inf) | (serie > lim_sup), lim_inf, lim_sup
+
